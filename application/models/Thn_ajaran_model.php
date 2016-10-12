@@ -26,6 +26,10 @@ class Thn_ajaran_model extends CI_Model {
         {
             $this->db->where('thn_ajaran_ket', $params['thn_ajaran_ket']);
         }
+        if(isset($params['thn_ajaran_budget']))
+        {
+            $this->db->where('thn_ajaran_budget', $params['thn_ajaran_budget']);
+        }
         if(isset($params['status']))
         {
             $this->db->where('thn_ajaran_status', $params['status']);
@@ -55,7 +59,7 @@ class Thn_ajaran_model extends CI_Model {
             $this->db->order_by('thn_ajaran_ket', 'desc');
         }
 
-        $this->db->select('thn_ajaran.thn_ajaran_id, thn_ajaran_ket, thn_ajaran_status');
+        $this->db->select('thn_ajaran.thn_ajaran_id, thn_ajaran_ket, thn_ajaran_budget, thn_ajaran_status');
         $res = $this->db->get('thn_ajaran');
 
         if(isset($params['id']) OR (isset($params['limit']) AND $params['limit'] == 1) OR (isset($params['thn_ajaran_ket'])))
@@ -77,6 +81,10 @@ class Thn_ajaran_model extends CI_Model {
         
          if(isset($data['thn_ajaran_ket'])) {
             $this->db->set('thn_ajaran_ket', $data['thn_ajaran_ket']);
+        }
+
+        if(isset($data['thn_ajaran_budget'])) {
+            $this->db->set('thn_ajaran_budget', $data['thn_ajaran_budget']);
         }
         
          if(isset($data['thn_ajaran_status'])) {

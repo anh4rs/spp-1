@@ -34,7 +34,7 @@ class Jns_byr extends CI_Controller {
         $params = array();
         // nis
         if (isset($f['n']) && !empty($f['n']) && $f['n'] != '') {
-            $params['jns_byr_kategori'] = $f['n'];
+            $params['jns_byr_tarif'] = $f['n'];
         }
 
         $paramsPage = $params;
@@ -67,7 +67,7 @@ class Jns_byr extends CI_Controller {
     // Add jns_byr and Update
     public function add($id = NULL) {
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('jns_byr_kategori', 'Jenis Bayar', 'trim|required|xss_clean');  
+        $this->form_validation->set_rules('jns_byr_tarif', 'Jenis Bayar', 'trim|required|xss_clean');  
         $this->form_validation->set_rules('jns_byr_ket', 'Kategori', 'trim|required|xss_clean');   
         $this->form_validation->set_error_delimiters('<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>', '</div>');
         $data['operation'] = is_null($id) ? 'Tambah' : 'Sunting';
@@ -79,7 +79,7 @@ class Jns_byr extends CI_Controller {
             } else {
                 
             }
-            $params['jns_byr_kategori'] = $this->input->post('jns_byr_kategori');
+            $params['jns_byr_tarif'] = $this->input->post('jns_byr_tarif');
             $params['jns_byr_ket'] = $this->input->post('jns_byr_ket');
             $status = $this->Jns_byr_model->add($params);
 

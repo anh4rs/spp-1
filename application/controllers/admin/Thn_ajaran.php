@@ -11,7 +11,7 @@ if (!defined('BASEPATH'))
  * @category    Controllers
  * @author      Achyar Anshorie
  */
-class thn_ajaran extends CI_Controller {
+class Thn_ajaran extends CI_Controller {
 
     public function __construct() {
         parent::__construct(TRUE);
@@ -80,6 +80,7 @@ class thn_ajaran extends CI_Controller {
                 
             }
             $params['thn_ajaran_ket'] = $this->input->post('thn_ajaran_ket');
+            $params['thn_ajaran_budget'] = $this->input->post('thn_ajaran_budget');
             $params['thn_ajaran_status'] = $this->input->post('thn_ajaran_status');
             $status = $this->Thn_ajaran_model->add($params);
 

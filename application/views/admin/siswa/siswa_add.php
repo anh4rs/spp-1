@@ -42,12 +42,24 @@ if (isset($siswa)) {
                     <p style="color:#9C9C9C;margin-top: 5px"><i>Password minimal 6 karakter</i></p>
                 <?php endif; ?>
 
-                <label >Nama Lengkap *</label>
+                <label >Nama Lengkap *</label> 
                 <input type="text" name="siswa_nama" placeholder="Nama Lengkap" class="form-control" value="<?php echo $inputFullName; ?>"><br>
                 <label >Tempat Lahir *</label>
                 <input type="text" name="siswa_tmpt_lhr" placeholder="Tempat Lahir" class="form-control" value="<?php echo $inputBirthPlace; ?>"><br>
                 <label >Tanggal Lahir *</label>
                 <input type="text" name="siswa_tgl_lhr" placeholder="Tanggal Lahir" class="form-control datepicker" value="<?php echo $inputBirthDate; ?>"><br>
+                <label >Kelas *</label>
+                <select name="jns_byr_kategori" class="form-control">
+                    <option value="">--- Pilih ---</option>
+                    <?php
+                    foreach ($kelas as $row):
+                        ?>
+                    <option value="<?php echo $row['kelas_id']; ?>"> <?php echo $row['kelas_ket']; ?></option>
+
+                    <?php
+                    endforeach;
+                    ?>
+                </select><br>
 
                 <p style="color:#9C9C9C;margin-top: 5px"><i>*) Wajib diisi</i></p>
             </div>

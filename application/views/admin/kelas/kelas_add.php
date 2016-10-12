@@ -1,12 +1,14 @@
 <?php
 $this->load->view('admin/tinymce_init');
 $this->load->view('admin/datepicker');
-if (isset($bulan)) {
-    $id = $bulan['bulan_id'];
-    $inputFullName = $bulan['bulan_nama'];
+if (isset($kelas)) {
+    $id = $kelas['kelas_id'];
+    $inputFullName = $kelas['kelas_ket'];
+    $inputTarif = $kelas['kelas_tarif'];
 } else {
     
-    $inputFullName = set_value('bulan_nama');
+    $inputFullName = set_value('kelas_ket');
+    $inputTarif = set_value('kelas_tarif');
 }
 ?>
 <?php echo isset($alert) ? ' ' . $alert : null; ?>
@@ -22,11 +24,13 @@ if (isset($bulan)) {
         <?php echo form_open_multipart(current_url()); ?>
         <div class="col-md-12">
             <div class="col-sm-8 col-md-6">
-                <?php if (isset($bulan)): ?>
-                    <input type="hidden" name="bulan_id" value="<?php echo $bulan['bulan_id'] ?>" />
+                <?php if (isset($kelas)): ?>
+                    <input type="hidden" name="kelas_id" value="<?php echo $kelas['kelas_id'] ?>" />
                 <?php endif; ?>     
-                <label >Bulan *</label>
-                <input type="text" name="bulan_nama" autofocus placeholder="Bulan" class="form-control" value="<?php echo $inputFullName; ?>"><br>
+                <label >Kelas *</label>
+                <input type="text" name="kelas_ket" autofocus placeholder="Nama Kelas" class="form-control" value="<?php echo $inputFullName; ?>"><br>
+                <label >Tarif SPP Per Kelas *</label>
+                <input type="text" name="kelas_tarif" placeholder="Tarif SPP" class="form-control" onkeypress="validate(event)" value="<?php echo $inputTarif; ?>"><br>
                 <p style="color:#9C9C9C;margin-top: 5px"><i>*) Wajib diisi</i></p>
             </div>
             <div class="col-sm-12 col-xs-12 col-md-3">
@@ -34,11 +38,11 @@ if (isset($bulan)) {
                     </div>
                     <hr>
                     <button name="action" type="submit" value="save" class="btn btn-success btn-form"><i class="fa fa-check"></i> Simpan</button><br>
-                    <a href="<?php echo site_url('admin/bulan'); ?>" class="btn btn-info btn-form"><i class="fa fa-arrow-left"></i> Batal</a><br>
-                    <?php if (isset($bulan)): ?>
-                        <?php if ($this->session->userdata('bulan_id') != $id) {
+                    <a href="<?php echo site_url('admin/kelas'); ?>" class="btn btn-info btn-form"><i class="fa fa-arrow-left"></i> Batal</a><br>
+                    <?php if (isset($kelas)): ?>
+                        <?php if ($this->session->userdata('kelas_id') != $id) {
                             ?>
-                            <a href="<?php echo site_url('admin/bulan/delete/' . $bulan['bulan_id']); ?>" class="btn btn-danger btn-form"><i class="fa fa-trash"></i> Hapus</a><br>
+                            <a href="<?php echo site_url('admin/kelas/delete/' . $kelas['kelas_id']); ?>" class="btn btn-danger btn-form"><i class="fa fa-trash"></i> Hapus</a><br>
                             <?php } ?>
                                 <?php endif; ?>
                             </div>
@@ -48,7 +52,7 @@ if (isset($bulan)) {
                 </div>
             </div>
 
-            <?php if (isset($bulan)): ?>
+            <?php if (isset($kelas)): ?>
                 <!-- Delete Confirmation -->
                 <div class="modal fade" id="confirm-del">
                     <div class="modal-dialog">
@@ -60,11 +64,11 @@ if (isset($bulan)) {
                             <div class="modal-body">
                                 <p>Data yang dipilih akan dihapus oleh sistem, apakah anda yakin?;</p>
                             </div>
-                            <?php echo form_open('admin/bulan/delete/' . $bulan['bulan_id']); ?>
+                            <?php echo form_open('admin/kelas/delete/' . $kelas['kelas_id']); ?>
                             <div class="modal-footer">
                                 <a><button style="float: right;margin-left: 10px" type="button" class="btn btn-default" data-dismiss="modal">Tidak</button></a>
-                                <input type="hidden" name="del_id" value="<?php echo $bulan['bulan_id'] ?>" />
-                                <input type="hidden" name="del_name" value="<?php echo $bulan['bulan_nama'] ?>" />
+                                <input type="hidden" name="del_id" value="<?php echo $kelas['kelas_id'] ?>" />
+                                <input type="hidden" name="del_name" value="<?php echo $kelas['kelas_ket'] ?>" />
                                 <button type="submit" class="btn btn-primary">Ya</button>
                             </div>
                             <?php echo form_close(); ?>

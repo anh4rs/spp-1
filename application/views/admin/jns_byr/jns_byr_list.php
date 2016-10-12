@@ -9,15 +9,13 @@
         </span>
     </h3>       
 </h3>
-<br>
-
 <div class="table-responsive">
     <table class="table table-striped">
         <thead class="gradient">
             <tr>
                 <th>No</th>
                 <th>Jenis Pembayaran</th>
-                <th>Kategori</th>
+                <th>Tarif Pembayaran</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -30,7 +28,7 @@
                     <tr>
                         <td ><?php echo $i ?></td>
                         <td ><?php echo $row['jns_byr_ket']; ?></td>
-                        <td ><span class="cap"><?php echo $row['jns_byr_kategori']; ?></span></td>
+                        <td ><span class="cap"><?php echo $row['jns_byr_tarif']; ?></span></td>
                         <td>
                             <a class="btn btn-success btn-xs" href="<?php echo site_url('admin/jns_byr/edit/' . $row['jns_byr_id']); ?>" ><span class="glyphicon glyphicon-edit"></span></a>
                             </td>

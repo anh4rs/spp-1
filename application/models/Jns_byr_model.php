@@ -27,9 +27,9 @@ class Jns_byr_model extends CI_Model {
             $this->db->where('jns_byr_ket', $params['jns_byr_ket']);
         }
 
-        if(isset($params['jns_byr_kategori']))
+        if(isset($params['jns_byr_tarif']))
         {
-            $this->db->where('jns_byr_kategori', $params['jns_byr_kategori']);
+            $this->db->where('jns_byr_tarif', $params['jns_byr_tarif']);
         }
         if(isset($params['date_start']) AND isset($params['date_end']))
         {
@@ -56,7 +56,7 @@ class Jns_byr_model extends CI_Model {
             $this->db->order_by('jns_byr_id', 'asc');
         }
 
-        $this->db->select('jns_byr.jns_byr_id, jns_byr_ket, jns_byr_kategori');
+        $this->db->select('jns_byr.jns_byr_id, jns_byr_ket, jns_byr_tarif');
         $res = $this->db->get('jns_byr');
 
         if(isset($params['id']) OR (isset($params['limit']) AND $params['limit'] == 1) OR (isset($params['jns_byr_ket'])))
@@ -80,8 +80,8 @@ class Jns_byr_model extends CI_Model {
             $this->db->set('jns_byr_ket', $data['jns_byr_ket']);
         }
 
-        if(isset($data['jns_byr_kategori'])) {
-            $this->db->set('jns_byr_kategori', $data['jns_byr_kategori']);
+        if(isset($data['jns_byr_tarif'])) {
+            $this->db->set('jns_byr_tarif', $data['jns_byr_tarif']);
         }
         
         if (isset($data['jns_byr_id'])) {

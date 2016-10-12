@@ -18,7 +18,7 @@ class Siswa extends CI_Controller {
         if ($this->session->userdata('logged') == NULL) {
             header("Location:" . site_url('admin/auth/login') . "?location=" . urlencode($_SERVER['REQUEST_URI']));
         }
-        $this->load->model(array('Siswa_model', 'Activity_log_model'));
+        $this->load->model(array('Siswa_model', 'Activity_log_model', 'Kelas_model'));
         $this->load->library('upload');
     }
 
@@ -93,6 +93,7 @@ class Siswa extends CI_Controller {
             $params['user_last_update'] = date('Y-m-d H:i:s');
             $params['siswa_tgl_lhr'] = $this->input->post('siswa_tgl_lhr');
             $params['siswa_status'] = $this->input->post('siswa_status');
+            $params['kelas_id'] = $this->input->post('kelas_id');
             $status = $this->Siswa_model->add($params);
 
 
@@ -115,6 +116,7 @@ class Siswa extends CI_Controller {
             if (!is_null($id)) {
                 $data['siswa'] = $this->Siswa_model->get(array('id' => $id));
             }
+            $data['kelas'] = $this->Kelas_model->get(); 
             $data['title'] = $data['operation'] . ' Peserta';
             $data['main'] = 'admin/siswa/siswa_add';
             $this->load->view('admin/layout', $data);

@@ -46,7 +46,7 @@ class Siswa_model extends CI_Model {
         }
 
         if(isset($params['limit']))
-        {
+        { 
             if(!isset($params['offset']))
             {
                 $params['offset'] = NULL;
@@ -66,6 +66,7 @@ class Siswa_model extends CI_Model {
 
         $this->db->select('siswa.siswa_id, siswa_nis, siswa_password, siswa_nama,
             siswa_tmpt_lhr, siswa_tgl_lhr, siswa_status, siswa_input_date, siswa_last_update');
+        $this->db->join('kelas', 'kelas.kelas_id = siswa.kelas_kelas_id', 'left');   
         $res = $this->db->get('siswa');
 
         if(isset($params['id']) OR (isset($params['limit']) AND $params['limit'] == 1) OR (isset($params['siswa_nis'])))
@@ -80,65 +81,69 @@ class Siswa_model extends CI_Model {
 
     // Add and update to database
     function add($data = array()) {
-        
-         if(isset($data['siswa_id'])) {
-            $this->db->set('siswa_id', $data['siswa_id']);
-        }
-        
-         if(isset($data['siswa_nis'])) {
-            $this->db->set('siswa_nis', $data['siswa_nis']);
-        }
-        
-         if(isset($data['password'])) {
-            $this->db->set('siswa_password', $data['password']);
-        }
-        
-         if(isset($data['siswa_nama'])) {
-            $this->db->set('siswa_nama', $data['siswa_nama']);
-        }
-        
-         if(isset($data['siswa_tmpt_lhr'])) {
-            $this->db->set('siswa_tmpt_lhr', $data['siswa_tmpt_lhr']);
-        }
-        
-         if(isset($data['siswa_tgl_lhr'])) {
-            $this->db->set('siswa_tgl_lhr', $data['siswa_tgl_lhr']);
-        }
-        
-         if(isset($data['siswa_status'])) {
-            $this->db->set('siswa_status', $data['siswa_status']);
-        }
-        
-         if(isset($data['siswa_input_date'])) {
-            $this->db->set('siswa_input_date', $data['siswa_input_date']);
-        }
-       
-         if(isset($data['siswa_last_update'])) {
-            $this->db->set('siswa_last_update', $data['siswa_last_update']);
-        }
-        
-        if (isset($data['siswa_id'])) {
-            $this->db->where('siswa_id', $data['siswa_id']);
-            $this->db->update('siswa');
-            $id = $data['siswa_id'];
-        } else {
-            $this->db->insert('siswa');
-            $id = $this->db->insert_id();
-        }
 
-        $status = $this->db->affected_rows();
-        return ($status == 0) ? FALSE : $id;
+       if(isset($data['siswa_id'])) {
+        $this->db->set('siswa_id', $data['siswa_id']);
     }
-    
+
+    if(isset($data['siswa_nis'])) {
+        $this->db->set('siswa_nis', $data['siswa_nis']);
+    }
+
+    if(isset($data['password'])) {
+        $this->db->set('siswa_password', $data['password']);
+    }
+
+    if(isset($data['siswa_nama'])) {
+        $this->db->set('siswa_nama', $data['siswa_nama']);
+    }
+
+    if(isset($data['kelas_id'])) {
+        $this->db->set('kelas_kelas_id', $data['kelas_id']);
+    }
+
+    if(isset($data['siswa_tmpt_lhr'])) {
+        $this->db->set('siswa_tmpt_lhr', $data['siswa_tmpt_lhr']);
+    }
+
+    if(isset($data['siswa_tgl_lhr'])) {
+        $this->db->set('siswa_tgl_lhr', $data['siswa_tgl_lhr']);
+    }
+
+    if(isset($data['siswa_status'])) {
+        $this->db->set('siswa_status', $data['siswa_status']);
+    }
+
+    if(isset($data['siswa_input_date'])) {
+        $this->db->set('siswa_input_date', $data['siswa_input_date']);
+    }
+
+    if(isset($data['siswa_last_update'])) {
+        $this->db->set('siswa_last_update', $data['siswa_last_update']);
+    }
+
+    if (isset($data['siswa_id'])) {
+        $this->db->where('siswa_id', $data['siswa_id']);
+        $this->db->update('siswa');
+        $id = $data['siswa_id'];
+    } else {
+        $this->db->insert('siswa');
+        $id = $this->db->insert_id();
+    }
+
+    $status = $this->db->affected_rows();
+    return ($status == 0) ? FALSE : $id;
+}
+
     // Delete to database
-    function delete($id) {
-        $this->db->where('siswa_id', $id);
-        $this->db->delete('siswa');
-    }
-    
-    function change_password($id, $params) {
-        $this->db->where('siswa_id', $id);
-        $this->db->update('siswa', $params);
-    }
-    
+function delete($id) {
+    $this->db->where('siswa_id', $id);
+    $this->db->delete('siswa');
+}
+
+function change_password($id, $params) {
+    $this->db->where('siswa_id', $id);
+    $this->db->update('siswa', $params);
+}
+
 }

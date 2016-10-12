@@ -88,7 +88,19 @@ CREATE  TABLE IF NOT EXISTS `thn_ajaran` (
   `thn_ajaran_id` INT NOT NULL AUTO_INCREMENT ,
   `thn_ajaran_ket` VARCHAR(45) NULL ,
   `thn_ajaran_status` TINYINT(1) NULL DEFAULT 0 ,
+  `thn_ajaran_budget` DECIMAL NULL DEFAULT 0 ,
   PRIMARY KEY (`thn_ajaran_id`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `kelas`
+-- -----------------------------------------------------
+CREATE  TABLE IF NOT EXISTS `kelas` (
+  `kelas_id` INT NOT NULL AUTO_INCREMENT ,
+  `kelas_ket` VARCHAR(45) NULL ,
+  `kelas_tarif` DECIMAL NULL ,
+  PRIMARY KEY (`kelas_id`) )
 ENGINE = InnoDB;
 
 
@@ -100,12 +112,19 @@ CREATE  TABLE IF NOT EXISTS `siswa` (
   `siswa_nis` VARCHAR(45) NULL ,
   `siswa_password` VARCHAR(45) NULL ,
   `siswa_nama` VARCHAR(255) NULL ,
+  `kelas_kelas_id` INT NULL ,
   `siswa_tmpt_lhr` VARCHAR(45) NULL ,
   `siswa_tgl_lhr` DATE NULL ,
   `siswa_status` TINYINT(1) NULL DEFAULT 0 ,
   `siswa_input_date` TIMESTAMP NULL ,
   `siswa_last_update` TIMESTAMP NULL ,
-  PRIMARY KEY (`siswa_id`) )
+  PRIMARY KEY (`siswa_id`) ,
+  INDEX `fk_siswa_kelas1_idx` (`kelas_kelas_id` ASC) ,
+  CONSTRAINT `fk_siswa_kelas1`
+    FOREIGN KEY (`kelas_kelas_id` )
+    REFERENCES `kelas` (`kelas_id` )
+    ON DELETE SET NULL
+    ON UPDATE SET NULL)
 ENGINE = InnoDB;
 
 
@@ -114,97 +133,88 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `jns_byr` (
   `jns_byr_id` INT NOT NULL AUTO_INCREMENT ,
-  `jns_byr_kategori` VARCHAR(45) NULL ,
-  `jns_byr_ket` VARCHAR(100) NULL ,
+  `jns_byr_ket` VARCHAR(45) NULL ,
+  `jns_byr_tarif` DECIMAL NULL ,
   PRIMARY KEY (`jns_byr_id`) )
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `bulan`
+-- Table `trx_spp`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `bulan` (
-  `bulan_id` INT NOT NULL AUTO_INCREMENT ,
-  `bulan_nama` VARCHAR(100) NULL ,
-  PRIMARY KEY (`bulan_id`) )
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `tarif_byr`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `tarif_byr` (
-  `tarif_byr_id` INT NOT NULL AUTO_INCREMENT ,
+CREATE  TABLE IF NOT EXISTS `trx_spp` (
+  `trx_spp_id` INT NOT NULL AUTO_INCREMENT ,
   `thn_ajaran_thn_ajaran_id` INT NULL ,
-  `bulan_bulan_id` INT NULL ,
-  `jns_byr_jns_byr_id` INT NULL ,
-  `tarif_byr_kategori` DECIMAL NULL ,
-  PRIMARY KEY (`tarif_byr_id`) ,
-  INDEX `fk_tarif_byr_thn_ajaran1_idx` (`thn_ajaran_thn_ajaran_id` ASC) ,
-  INDEX `fk_tarif_byr_bulan1_idx` (`bulan_bulan_id` ASC) ,
-  INDEX `fk_tarif_byr_jns_byr1_idx` (`jns_byr_jns_byr_id` ASC) ,
-  CONSTRAINT `fk_tarif_byr_thn_ajaran1`
+  `kelas_kelas_id` INT NULL ,
+  `siswa_siswa_id` INT NULL ,
+  `trx_spp_jul` DECIMAL NULL ,
+  `trx_spp_ags` DECIMAL NULL ,
+  `trx_spp_sep` DECIMAL NULL ,
+  `trx_spp_okt` DECIMAL NULL ,
+  `trx_spp_nov` DECIMAL NULL ,
+  `trx_spp_des` DECIMAL NULL ,
+  `trx_spp_jan` DECIMAL NULL ,
+  `trx_spp_feb` DECIMAL NULL ,
+  `trx_spp_mar` DECIMAL NULL ,
+  `trx_spp_apr` DECIMAL NULL ,
+  `trx_spp_mei` DECIMAL NULL ,
+  `trx_spp_jun` DECIMAL NULL ,
+  `user_user_id` INT NULL ,
+  `trx_spp_input_date` TIMESTAMP NULL ,
+  `trx_spp_last_update` TIMESTAMP NULL ,
+  PRIMARY KEY (`trx_spp_id`) ,
+  INDEX `fk_trx_spp_siswa1_idx` (`siswa_siswa_id` ASC) ,
+  INDEX `fk_trx_spp_thn_ajaran1_idx` (`thn_ajaran_thn_ajaran_id` ASC) ,
+  INDEX `fk_trx_spp_kelas1_idx` (`kelas_kelas_id` ASC) ,
+  CONSTRAINT `fk_trx_spp_siswa1`
+    FOREIGN KEY (`siswa_siswa_id` )
+    REFERENCES `siswa` (`siswa_id` )
+    ON DELETE SET NULL
+    ON UPDATE SET NULL,
+  CONSTRAINT `fk_trx_spp_thn_ajaran1`
     FOREIGN KEY (`thn_ajaran_thn_ajaran_id` )
     REFERENCES `thn_ajaran` (`thn_ajaran_id` )
     ON DELETE SET NULL
     ON UPDATE SET NULL,
-  CONSTRAINT `fk_tarif_byr_bulan1`
-    FOREIGN KEY (`bulan_bulan_id` )
-    REFERENCES `bulan` (`bulan_id` )
-    ON DELETE SET NULL
-    ON UPDATE SET NULL,
-  CONSTRAINT `fk_tarif_byr_jns_byr1`
-    FOREIGN KEY (`jns_byr_jns_byr_id` )
-    REFERENCES `jns_byr` (`jns_byr_id` )
+  CONSTRAINT `fk_trx_spp_kelas1`
+    FOREIGN KEY (`kelas_kelas_id` )
+    REFERENCES `kelas` (`kelas_id` )
     ON DELETE SET NULL
     ON UPDATE SET NULL)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `trx`
+-- Table `trx_bebas`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `trx` (
-  `trx_id` INT NOT NULL AUTO_INCREMENT ,
-  `trx_nomor` VARCHAR(45) NULL ,
-  `siswa_siswa_id` INT NULL ,
+CREATE  TABLE IF NOT EXISTS `trx_bebas` (
+  `trx_bebas_id` INT NOT NULL AUTO_INCREMENT ,
   `thn_ajaran_thn_ajaran_id` INT NULL ,
-  `bulan_bulan_id` INT NULL ,
+  `siswa_siswa_id` INT NULL ,
   `jns_byr_jns_byr_id` INT NULL ,
-  `tarif_byr_tarif_id` INT NULL ,
-  `trx_input_date` TIMESTAMP NULL ,
-  `trx_last_update` TIMESTAMP NULL ,
-  PRIMARY KEY (`trx_id`) ,
-  INDEX `fk_trx_siswa1_idx` (`siswa_siswa_id` ASC) ,
-  INDEX `fk_trx_tarif_byr1_idx` (`tarif_byr_tarif_id` ASC) ,
-  INDEX `fk_trx_jns_byr1_idx` (`jns_byr_jns_byr_id` ASC) ,
-  INDEX `fk_trx_bulan1_idx` (`bulan_bulan_id` ASC) ,
-  INDEX `fk_trx_thn_ajaran1_idx` (`thn_ajaran_thn_ajaran_id` ASC) ,
-  CONSTRAINT `fk_trx_siswa1`
-    FOREIGN KEY (`siswa_siswa_id` )
-    REFERENCES `siswa` (`siswa_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_trx_tarif_byr1`
-    FOREIGN KEY (`tarif_byr_tarif_id` )
-    REFERENCES `tarif_byr` (`tarif_byr_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_trx_jns_byr1`
-    FOREIGN KEY (`jns_byr_jns_byr_id` )
-    REFERENCES `jns_byr` (`jns_byr_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_trx_bulan1`
-    FOREIGN KEY (`bulan_bulan_id` )
-    REFERENCES `bulan` (`bulan_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_trx_thn_ajaran1`
+  `trx_bebas_cicil` DECIMAL NULL DEFAULT 0 ,
+  `user_user_id` INT NULL ,
+  `trx_bebas_input_date` TIMESTAMP NULL ,
+  `trx_bebas_last_update` TIMESTAMP NULL ,
+  PRIMARY KEY (`trx_bebas_id`) ,
+  INDEX `fk_trx_bebas_thn_ajaran1_idx` (`thn_ajaran_thn_ajaran_id` ASC) ,
+  INDEX `fk_trx_bebas_siswa1_idx` (`siswa_siswa_id` ASC) ,
+  INDEX `fk_trx_bebas_jns_byr1_idx` (`jns_byr_jns_byr_id` ASC) ,
+  CONSTRAINT `fk_trx_bebas_thn_ajaran1`
     FOREIGN KEY (`thn_ajaran_thn_ajaran_id` )
     REFERENCES `thn_ajaran` (`thn_ajaran_id` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON DELETE SET NULL
+    ON UPDATE SET NULL,
+  CONSTRAINT `fk_trx_bebas_siswa1`
+    FOREIGN KEY (`siswa_siswa_id` )
+    REFERENCES `siswa` (`siswa_id` )
+    ON DELETE SET NULL
+    ON UPDATE SET NULL,
+  CONSTRAINT `fk_trx_bebas_jns_byr1`
+    FOREIGN KEY (`jns_byr_jns_byr_id` )
+    REFERENCES `jns_byr` (`jns_byr_id` )
+    ON DELETE SET NULL
+    ON UPDATE SET NULL)
 ENGINE = InnoDB;
 
 

@@ -4,11 +4,11 @@ $this->load->view('admin/datepicker');
 if (isset($jns_byr)) {
     $id = $jns_byr['jns_byr_id'];
     $inputFullName = $jns_byr['jns_byr_ket'];
-    $inputKategori = $jns_byr['jns_byr_kategori'];
+    $inputKategori = $jns_byr['jns_byr_tarif'];
 } else {
 
     $inputFullName = set_value('jns_byr_ket');
-    $inputKategori = set_value('jns_byr_kategori');
+    $inputKategori = set_value('jns_byr_tarif');
 }
 ?>
 <?php echo isset($alert) ? ' ' . $alert : null; ?>
@@ -29,11 +29,8 @@ if (isset($jns_byr)) {
                 <?php endif; ?>     
                 <label >Jenis Pembayaran *</label>
                 <input type="text" name="jns_byr_ket" autofocus placeholder="Jenis Pembayaran" class="form-control" value="<?php echo $inputFullName; ?>"><br>
-                <label >Kategori *</label>
-                <select name="jns_byr_kategori" class="form-control">
-                    <option value="">--- Pilih ---</option>
-                    <option value="bulanan">Bulanan</option>
-                    <option value="bebas">Bebas</option></select><br> 
+                <label >Tarif Pembayaran *</label>
+                <input type="text" name="jns_byr_tarif" placeholder="Tarif" class="form-control" onkeypress="validate(event)" value="<?php echo $inputKategori; ?>"><br>
                     <p style="color:#9C9C9C;margin-top: 5px"><i>*) Wajib diisi</i></p>
                 </div>
                 <div class="col-sm-12 col-xs-12 col-md-3">
