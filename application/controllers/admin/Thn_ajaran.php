@@ -18,7 +18,7 @@ class Thn_ajaran extends CI_Controller {
         if ($this->session->userdata('logged') == NULL) {
             header("Location:" . site_url('admin/auth/login') . "?location=" . urlencode($_SERVER['REQUEST_URI']));
         }
-        $this->load->model(array('Thn_ajaran_model', 'Activity_log_model'));
+        $this->load->model(array('Thn_ajaran_model', 'Activity_log_model', 'Trx_spp_model'));
         $this->load->library('upload');
     }
 
